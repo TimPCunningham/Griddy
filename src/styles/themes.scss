@@ -1,0 +1,97 @@
+@mixin shadify($label, $color) {
+  --#{$label}-100: #{lighten($color, 30%)};
+  --#{$label}-300: #{lighten($color, 10%)};
+  --#{$label}-500: #{$color};
+  --#{$label}-700: #{darken($color, 10%)};
+  --#{$label}-900: #{darken($color, 30%)};
+}
+
+:root, [data-theme="light"] {
+  @include shadify(primary, #f5f0f6);
+  @include shadify(secondary, #342e37);
+  @include shadify(accent, #2274a5);
+  @include shadify(error, #ee4266);
+  @include shadify(success, #388659);
+  @include shadify(warning, #f5b700);
+  @include shadify(info, #00b8e6);
+}
+
+[data-theme="dark"] {
+  @include shadify(primary, #342e37);
+  @include shadify(secondary, #f5f0f6);
+  @include shadify(accent, #2274a5);
+  @include shadify(error, #ee4266);
+  @include shadify(success, #388659);
+  @include shadify(warning, #f5b700);
+  @include shadify(info, #00b8e6);
+}
+
+[data-theme="nature"] {
+  @include shadify(primary, #f4f1de);    // Soft cream color like morning light
+  @include shadify(secondary, #3d405b);  // Deep blue-grey like twilight
+  @include shadify(accent, #81b29a);     // Sage green like forest leaves
+  @include shadify(error, #e07a5f);      // Terracotta like clay
+  @include shadify(success, #3c6e71);    // Deep green like pine trees
+  @include shadify(warning, #d4a373);    // Warm brown like wood
+  @include shadify(info, #98c1d9);       // Light blue like sky
+}
+
+[data-theme="coffee"] {
+  @include shadify(primary, #f3e9dc);    // Creamy latte foam
+  @include shadify(secondary, #2c1810);  // Dark roasted coffee beans
+  @include shadify(accent, #967259);     // Medium roast coffee
+  @include shadify(error, #d64933);      // Warm red - hot coffee warning
+  @include shadify(success, #43b929);    // Fresh green - fresh beans
+  @include shadify(warning, #f5a623);    // Orange - temperature warning
+  @include shadify(info, #4a90e2);       // Blue - water/cold brew
+}
+
+[data-theme="ocean"] {
+  @include shadify(primary, #e8f3f7);    // Sea foam white
+  @include shadify(secondary, #1b3a4b);  // Deep ocean
+  @include shadify(accent, #006d77);     // Turquoise waters
+  @include shadify(error, #ff6b6b);      // Coral red
+  @include shadify(success, #48cae4);    // Clear blue waters
+  @include shadify(warning, #ffd93d);    // Beach sand
+  @include shadify(info, #83c5be);       // Shallow waters
+}
+
+[data-theme="sunset"] {
+  @include shadify(primary, #ffecd1);    // Evening clouds
+  @include shadify(secondary, #2b2d42);  // Night sky
+  @include shadify(accent, #ff6b6b);     // Sunset red
+  @include shadify(error, #ef233c);      // Bright red
+  @include shadify(success, #f8961e);    // Orange glow
+  @include shadify(warning, #f9c74f);    // Golden hour
+  @include shadify(info, #90e0ef);       // Fading blue sky
+}
+
+[data-theme="forest"] {
+  @include shadify(primary, #edf6f9);    // Morning mist
+  @include shadify(secondary, #1b4332);  // Deep forest
+  @include shadify(accent, #588157);     // Pine needles
+  @include shadify(error, #bc4749);      // Forest berries
+  @include shadify(success, #2d6a4f);    // Evergreen
+  @include shadify(warning, #dda15e);    // Tree bark
+  @include shadify(info, #95d5b2);       // Young leaves
+}
+
+[data-theme="cyberpunk"] {
+  @include shadify(primary, #2b2d42);    // Night city
+  @include shadify(secondary, #14ffec);  // Neon glow
+  @include shadify(accent, #ff2a6d);     // Hot pink
+  @include shadify(error, #ff0000);      // Digital red
+  @include shadify(success, #05ffa1);    // Matrix green
+  @include shadify(warning, #f9c80e);    // Electric yellow
+  @include shadify(info, #7b2cbf);       // Cyber purple
+}
+
+[data-theme="retro"] {
+  @include shadify(primary, #faf3dd);    // Vintage paper
+  @include shadify(secondary, #463f3a);  // Old leather
+  @include shadify(accent, #e07a5f);     // Dusty rose
+  @include shadify(error, #d62828);      // Classic red
+  @include shadify(success, #386641);    // Antique green
+  @include shadify(warning, #f4d03f);    // Aged yellow
+  @include shadify(info, #457b9d);       // Faded blue
+}
