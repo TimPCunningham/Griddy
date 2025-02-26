@@ -1,9 +1,11 @@
+@use 'sass:color';
+
 @mixin shadify($label, $color) {
-  --#{$label}-100: #{lighten($color, 30%)};
-  --#{$label}-300: #{lighten($color, 10%)};
+  --#{$label}-100: #{color.adjust($color, $lightness: 30%)};
+  --#{$label}-300: #{color.adjust($color, $lightness: 10%)};
   --#{$label}-500: #{$color};
-  --#{$label}-700: #{darken($color, 10%)};
-  --#{$label}-900: #{darken($color, 30%)};
+  --#{$label}-700: #{color.adjust($color, $lightness: -10%)};
+  --#{$label}-900: #{color.adjust($color, $lightness: -30%)};
 }
 
 :root, [data-theme="light"] {
@@ -94,4 +96,10 @@
   @include shadify(success, #386641);    // Antique green
   @include shadify(warning, #f4d03f);    // Aged yellow
   @include shadify(info, #457b9d);       // Faded blue
+}
+
+:root {
+  // Add RGB versions of colors for opacity control
+  --border-color-rgb: 128, 128, 128; // Adjust to match your border color
+  --accent-color-rgb: 64, 128, 255;  // Adjust to match your accent color
 }

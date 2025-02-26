@@ -1,0 +1,95 @@
+.gridContainer {
+  padding: 20px;
+  min-height: 800px;
+  background-color: var(--primary-100);
+  border: 1px solid var(--secondary-300);
+  border-radius: 8px;
+  
+  // Add column indicators
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    right: 10px;
+    height: 20px;
+    background: linear-gradient(90deg, 
+      var(--accent-100) calc((100% - 110px) / 12),
+      transparent calc((100% - 110px) / 12)
+    );
+    background-size: calc((100% - 110px) / 12 + 10px) 100%;
+    border-bottom: 1px solid var(--secondary-300);
+  }
+}
+
+.grid-tile {
+  background-color: var(--primary-300);
+  border: 2px solid var(--secondary-300);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: move;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  
+  // Handle overflow content
+  overflow: hidden;
+  
+  // Hover effects
+  &:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  // Style for the resize handle
+  .react-resizable-handle {
+    background-color: var(--accent-500);
+    opacity: 0.5;
+    width: 12px;
+    height: 12px;
+    border-radius: 0 0 3px 0;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+  
+  h3 {
+    margin: 0 0 12px 0;
+    color: var(--secondary-500);
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-500);
+    padding-bottom: 8px;
+  }
+  
+  p {
+    color: var(--secondary-300);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+// Add transition for smooth resizing/moving
+.react-grid-item {
+  transition: all 200ms ease;
+  transition-property: left, top, width, height;
+  
+  &.react-grid-placeholder {
+    background: var(--accent-300);
+    opacity: 0.2;
+    border-radius: 12px;
+    border: 2px dashed var(--accent-500);
+  }
+  
+  &.resizing {
+    transition: none;
+  }
+  
+  &.react-draggable-dragging {
+    transition: none;
+    z-index: 100;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+} 
