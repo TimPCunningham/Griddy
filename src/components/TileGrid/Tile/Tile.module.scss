@@ -1,0 +1,43 @@
+.tile {
+  height: 100%;
+  background-color: var(--primary-300);
+  border: 2px solid var(--secondary-300);
+  border-radius: 12px;
+  padding: 16px;
+  
+  // Handle overflow content
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  // Hover effects
+  &:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+
+article {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+  
+  // Styling the scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--primary-100);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--accent-300);
+    border-radius: 3px;
+    
+    &:hover {
+      background: var(--accent-500);
+    }
+  }
+}

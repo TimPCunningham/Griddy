@@ -1,59 +1,87 @@
-import GridLayout from 'react-grid-layout';
+import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import TestTile from './Tiles/TestTile';
-import Tile from './Tile';
+import Tile from './Tile/Tile';
+import { GridProps, TileAppData, TileShape } from './Types';
 
-type LayoutItem = {
-  i: string,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  minW?: number,
-  maxW?: number,
-  minH?: number,
-  maxH?: number,
-}
+import styles from './TileGrid.module.scss';
+import { DragEvent, useState } from 'react';
+import { randomBase64 } from '../../utils/random';
+import { getTileData } from './Tiles';
+import { useTileContext } from '../../contexts/TileContext';
+
 
 export default function TileGrid() {
-  // Initial layout configuration
-  const layout: LayoutItem[] = [
-    { i: 'tile1', x: 0, y: 0, w: 2, h: 2, minW: 1, maxW: 2, minH: 1, maxH: 2 },
-    { i: 'tile2', x: 2, y: 0, w: 2, h: 4 },
-    { i: 'tile3', x: 4, y: 0, w: 2, h: 3 },
-  ];
+  const [tiles, setTiles] = useState<TileShape[]>([])
+  const { draggedTile, setDraggedTile, isEditMode } = useTileContext();
 
+  function onDropTile(layout: Layout[], layoutItem: Layout, evt: DragEvent) {
+    let tileData = draggedTile;
+    console.log('drop');
+
+    if(!tileData) {
+      const tileId = evt.dataTransfer.getData('plain/text');
+      tileData = getTileData(tileId);
+    }
+
+    if(!tileData) { 
+      // Throw toast message with error eventually.
+      console.log('Could not find tile!');
+      setDraggedTile(undefined);
+      return;
+    }
+
+    const id = randomBase64();
+    const newTile: TileShape = {
+      id,
+      app: tileData.app,
+      settings: {
+        i: id,
+        x: layoutItem.x,
+        y: layoutItem.y,
+        ...tileData.settings
+      }
+    }
+
+    setDraggedTile(undefined);
+    setTiles(currentTiles => (
+      [
+        ...currentTiles,
+        newTile
+      ]
+    ));
+  }
 
   // Grid configuration
-  const gridProps = {
-    className: 'layout',
-    //layout: layout,
+  const gridProps: GridProps = {
+    className: styles.grid,
     cols: 12,              // Total number of grid columns
     rowHeight: 100,        // Height of one grid unit in pixels
     width: 1200,           // Total width of the grid
     compactType: null,     // Prevents automatic repositioning
     preventCollision: true,// Prevents tiles from overlapping
+    isDroppable: true,
+    isDraggable: isEditMode,
+    isResizable: isEditMode,
     margin: [10, 10] as [number, number],      // Margin between items [x, y]
-    onLayoutChange: (newLayout: LayoutItem[]) => {
+    onLayoutChange: (newLayout: Layout[]) => {
       console.log('Layout changed:', newLayout);
+    },
+    onDrop: onDropTile,
+    onDropDragOver: () => {
+      return { w: draggedTile?.settings.w ?? 1, h: draggedTile?.settings.h ?? 1 }
     },
     resizeHandles: ['s', 'se', 'e'] as Array<'s' | 'w' | 'e' | 'n' | 'sw' | 'nw' | 'se' | 'ne'>
   };
 
-  const tileDataGrid = {
-    x: 0,
-    y: 0,
-    ...TestTile.settings
-  }
-
   return (
     <div>
       <GridLayout {...gridProps}>
-        {/* <div key="tile2" data-grid={{x: 0, y: 0, w: 2, h:2, minW: 1}}>T1</div> */}
-        <Tile key={"tile1"} data-grid={{x: 0, y: 0, w: 2, h:2, minW: 1}}/>
-        {/* <TestTile tileId="tile3" title="Custom Tile" key="tile3"/> */}
-        <TestTile key="tile3" title="Testing" data-grid={tileDataGrid}/>
+        {tiles.map((tileData) => (
+          <Tile key={tileData.id} data-grid={tileData.settings}>
+            {tileData.app}
+          </Tile>
+        ))}
       </GridLayout>
     </div>
   );
